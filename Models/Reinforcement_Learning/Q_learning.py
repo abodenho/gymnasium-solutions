@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
+from Models.player import Agent
 from enum import Enum
 import random
 import math
+
+
 
 class Q_TABLE(Enum):
     DYNAMIC = 1
@@ -13,22 +15,6 @@ class EPSILON_STRATEGY(Enum):
     DECAY = 2
 
 
-class Agent(ABC): # Abstact class
-    @abstractmethod
-    def _initiate_memory(self):
-        pass
-
-    @abstractmethod
-    def make_a_choice(self,state): #Play by taking into account epsilon
-        pass
-
-    @abstractmethod
-    def play(self,state):#Play without epsilon
-        pass
-
-    @abstractmethod
-    def learn(self):
-        pass
 
 
 class QTable:
@@ -110,7 +96,7 @@ class QTable:
 
     
 
-class Qlearning(Agent):
+class QLearningAgent(Agent):
     ## Mandatory
     __epsilon = None
     __alpha = None
@@ -188,11 +174,5 @@ class Qlearning(Agent):
         if end_episode and self.__is_decay_epsilon():
             self.__update_epsilon()
 
-    def save_q_table():
-        pass #TODO
-
-    def load_q_table():
-        pass #TODO
-
-    def print_memory(self):
+    def print_memory(self): # Use for debug
         self.__qtable.print_memory()

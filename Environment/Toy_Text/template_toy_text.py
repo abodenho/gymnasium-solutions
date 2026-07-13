@@ -5,7 +5,7 @@ def play_game(environement_training,environement_test,agent,NUMBER_EPISODE,NUMBE
         observation = environement_training.reset()[0]
 
         if (episode % 100 == 0):
-            print("pourcentage ", round(episode / NUMBER_EPISODE, 3),"%")
+            print("Pourcent : ", round((episode / NUMBER_EPISODE) *100, 3),"%")
 
         while not finish:
             action = agent.make_a_choice(observation)
@@ -17,7 +17,6 @@ def play_game(environement_training,environement_test,agent,NUMBER_EPISODE,NUMBE
 
     print("Begin real game")
 
-    agent.print_memory()
     for _ in range(NUMBER_TEST):
         finish = False
         observation = environement_test.reset()[0]

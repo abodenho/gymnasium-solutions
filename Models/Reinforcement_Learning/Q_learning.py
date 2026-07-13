@@ -125,7 +125,7 @@ class QLearningAgent(Agent):
 
     def _initiate_memory(self,Q_table_construction,default_number_action,number_state):
         if Q_table_construction == Q_TABLE.DYNAMIC:
-            self.__qtable = QTable(Q_table_construction,default_number_action=default_number_action)
+            self.__qtable = QTable(Q_table_construction,number_action=default_number_action)
         else:
             self.__qtable = QTable(Q_table_construction,default_number_action,number_state)
 

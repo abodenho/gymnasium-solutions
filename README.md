@@ -23,17 +23,17 @@ gymnasium-solutions/
 │
 ├── Environment/
 │   ├── Box2D/
-│   ├── Classic_Control/
+│   ├── Classic Control/
 │   ├── MuJoCo/
 │   └── Toy_Text/
-│       ├── template_toy_text.py
-│       └── Frozen_Lake/
-│           ├── frozen_lake.py
-│           └── README.md
+│       ├── blackjack.py
+│       ├── ...
+│       └── template_toy_text.py
 │
 ├── Models/
+│   ├── player.py
 │   └── Reinforcement_Learning/
-│       └── Q_learning.py
+│       └── q_learning.py
 │
 ├── .gitignore
 └── README.md
@@ -41,4 +41,30 @@ gymnasium-solutions/
 
 * `Environment` contains the implementations for the different Gymnasium environments.
 * Each environment category contains a dedicated template that can be used as a starting point to quickly implement new environments within that category.
-* `Models` contains the reinforcement learning algorithms used by these environments.
+* `Models` contains the reinforcement learning algorithms and reusable components used by the environments.
+
+## Running an Environment
+
+An environment can be launched as a Python module from the root directory of the project.
+
+For example, to run `FrozenLake`:
+
+```bash
+python3 -m Environment.Toy_Text.frozen_lake
+```
+
+Other examples:
+
+```bash
+python3 -m Environment.Toy_Text.blackjack
+python3 -m Environment.Toy_Text.cliff_walking
+python3 -m Environment.Toy_Text.taxi
+```
+
+The command follows the package structure:
+
+```text
+python3 -m Environment.<category>.<python_file>
+```
+
+The command must be executed from the root directory of the project.

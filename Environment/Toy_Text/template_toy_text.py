@@ -8,7 +8,7 @@ def play_game(environement_training,environement_test,agent,NUMBER_EPISODE,NUMBE
             print("Pourcent : ", round((episode / NUMBER_EPISODE) *100, 3),"%")
 
         while not finish:
-            action = agent.make_a_choice(observation)
+            action = agent.play(observation,is_training=True)
             old_obs = observation
             observation, reward, finish, truncated, info = environement_training.step(action)
             agent.learn(old_obs, action,observation, reward, finish)

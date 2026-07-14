@@ -1,4 +1,4 @@
-from Models.player import Agent
+from Models.player import Agent,Memory
 from enum import Enum
 import random
 import math
@@ -15,9 +15,7 @@ class EPSILON_STRATEGY(Enum):
     DECAY = 2
 
 
-
-
-class QTable:
+class QTable(Memory):
     __qtable = {} # The data structure will be a dictionnary in case we have dynamic memory states, keys => state, values => actions
     __memory_construction = None 
     __default_number_action = None
@@ -37,9 +35,6 @@ class QTable:
     
     def __is_dynamic_memory(self) -> bool:
         return not self.__is_static_memory()
-
-    def get_number_action(self,state:int) -> int:
-        return len(self.__qtable[state])
 
     def __create_new_state(self,state:int,number_action:int = None) -> bool:
         if self.__is_dynamic_memory() and not self.__check_if_state_exist(state) :
@@ -80,20 +75,16 @@ class QTable:
         
         return random.choice(max_i_list)
 
-    def get_choice_list(self,state:str) -> list :
+    def get_random_action(self,state:str) -> list :
         if not self.__check_if_state_exist(state):
             self.__create_new_state(state) 
         
         choice_list_action = []
         for i in range(len(self.__qtable[state])):
             choice_list_action.append(i)
-        
-        return choice_list_action
-    
 
-    def print_memory(self):
-        print(self.__qtable)
-
+        action = random.choice(choice_list_action)
+        return action
     
 
 class QLearningAgent(Agent):
@@ -140,15 +131,15 @@ class QLearningAgent(Agent):
     
 
     def __explore(self,state):
-        list_choice = self.__qtable.get_choice_list(state)
-        chosen_action = random.choice(list_choice)
-        return chosen_action
+        action = self.__qtable.get_random_action(state)
+        return action
     
     def __exploit(self,state):
         chosen_action =  self.__qtable.get_best_action(state)
         return chosen_action
+    
 
-    def make_a_choice(self,state):
+    def __make_a_choice(self,state):
         chosen_action = None
         if self.__is_random_choice():
             chosen_action = self.__explore(state)
@@ -156,8 +147,12 @@ class QLearningAgent(Agent):
             chosen_action = self.__exploit(state)
         return chosen_action     
     
-    def play(self,state):
-        return self.__exploit(state)
+    def play(self,state,is_training=False):
+        if is_training:
+            action = self.__make_a_choice(state)
+        else:
+            action = self.__exploit(state)
+        return action
 
     def learn(self,current_state,current_action,next_state,reward,end_episode):
         current_q = self.__qtable.get_value(current_state,current_action)
@@ -173,6 +168,3 @@ class QLearningAgent(Agent):
         
         if end_episode and self.__is_decay_epsilon():
             self.__update_epsilon()
-
-    def print_memory(self): # Use for debug
-        self.__qtable.print_memory()
